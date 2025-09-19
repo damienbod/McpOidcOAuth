@@ -69,7 +69,7 @@ public class Program
 
         builder.Services.AddUserAccessTokenHttpClient("dpop-api-client", configureClient: client =>
         {
-            client.BaseAddress = new Uri("https://localhost:5005");
+            client.BaseAddress = new Uri("https://klocalhost:5103");
         });
 
         builder.Services.AddAuthorization(options =>
@@ -89,14 +89,11 @@ public class Program
         if (!app.Environment.IsDevelopment())
         {
             app.UseExceptionHandler("/Error");
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
 
         app.UseHttpsRedirection();
-
         app.UseRouting();
-
         app.UseAuthorization();
 
         app.MapStaticAssets();

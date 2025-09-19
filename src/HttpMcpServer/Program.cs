@@ -5,7 +5,6 @@ using ToolsLibrary.Tools;
 
 var builder = WebApplication.CreateBuilder(args);
 var httpMcpServerUrl = builder.Configuration["HttpMcpServerUrl"];
-
 var identityProvider = builder.Configuration["IdentityProvider"];
 
 builder.Services.AddAuthentication("dpoptokenscheme")
@@ -22,7 +21,7 @@ builder.Services.AddAuthentication("dpoptokenscheme")
         options.ResourceMetadata = new()
         {
             Resource = new Uri(httpMcpServerUrl),
-            ResourceDocumentation = new Uri("https://localhost:7133/health"),
+            ResourceDocumentation = new Uri("https://klocalhost:5103/health"),
             ScopesSupported = ["scope-dpop"],
         };
     });

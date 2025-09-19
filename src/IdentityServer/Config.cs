@@ -24,9 +24,9 @@ public static class Config
 
                 AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
 
-                RedirectUris = { "https://localhost:5015/signin-oidc" },
-                FrontChannelLogoutUri = "https://localhost:5015/signout-oidc",
-                PostLogoutRedirectUris = { "https://localhost:5015/signout-callback-oidc" },
+                RedirectUris = { "https://localhost:5102/signin-oidc" },
+                FrontChannelLogoutUri = "https://localhost:5102/signout-oidc",
+                PostLogoutRedirectUris = { "https://localhost:5102/signout-callback-oidc" },
 
                 AllowOfflineAccess = true,
                 AllowedScopes = { "openid", "profile", "scope-dpop" }
