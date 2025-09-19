@@ -17,22 +17,22 @@ builder.Host.UseSerilog((ctx, lc) => lc
 var httpMcpServerUrl = builder.Configuration["HttpMcpServerUrl"];
 var identityProvider = builder.Configuration["IdentityProvider"];
 
-builder.Services.AddAuthentication("Bearer")
-    //.AddJwtBearer("dpoptokenscheme", options =>
-    //{
-    //    options.Authority = identityProvider;
-    //    // TODO add valid aud
-    //    options.TokenValidationParameters.ValidateAudience = false;
-    //    options.MapInboundClaims = false;
-    //    options.TokenValidationParameters.ValidTypes = ["at+jwt"];
-    //})
+builder.Services.AddAuthentication()
+    .AddJwtBearer("Bearer", options =>
+    {
+        options.Authority = identityProvider;
+        // TODO add valid aud
+        options.TokenValidationParameters.ValidateAudience = false;
+        options.MapInboundClaims = false;
+        options.TokenValidationParameters.ValidTypes = ["at+jwt"];
+    })
     .AddMcp("Bearer", "mcp server", options =>
     {
         options.ResourceMetadata = new()
         {
-            Resource = new Uri(httpMcpServerUrl),
+            Resource = new Uri(httpMcpServerUrl), 
             ResourceDocumentation = new Uri("https://localhost:5103/health"),
-            ScopesSupported = ["scope-dpop"],
+            ScopesSupported = ["scope-dpop"], 
         };
     });
 
