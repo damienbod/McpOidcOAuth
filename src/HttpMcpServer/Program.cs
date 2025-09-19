@@ -17,7 +17,7 @@ builder.Host.UseSerilog((ctx, lc) => lc
 var httpMcpServerUrl = builder.Configuration["HttpMcpServerUrl"];
 var identityProvider = builder.Configuration["IdentityProvider"];
 
-builder.Services.AddAuthentication("dpoptokenscheme")
+builder.Services.AddAuthentication("Bearer")
     //.AddJwtBearer("dpoptokenscheme", options =>
     //{
     //    options.Authority = identityProvider;
@@ -26,7 +26,7 @@ builder.Services.AddAuthentication("dpoptokenscheme")
     //    options.MapInboundClaims = false;
     //    options.TokenValidationParameters.ValidTypes = ["at+jwt"];
     //})
-    .AddMcp("dpoptokenscheme", "mcp server", options =>
+    .AddMcp("Bearer", "mcp server", options =>
     {
         options.ResourceMetadata = new()
         {
@@ -37,7 +37,7 @@ builder.Services.AddAuthentication("dpoptokenscheme")
     });
 
 // layers DPoP onto the "token" scheme above
-builder.Services.ConfigureDPoPTokensForScheme("dpoptokenscheme", opt =>
+builder.Services.ConfigureDPoPTokensForScheme("Bearer", opt =>
 {
     opt.ValidationMode = ExpirationValidationMode.IssuedAt; // IssuedAt is the default.
 });
