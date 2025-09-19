@@ -1,5 +1,7 @@
 # MCP OAuth and OpenID Connect
 
+[![.NET](https://github.com/damienbod/McpOidcOAuth/actions/workflows/dotnet.yml/badge.svg)](https://github.com/damienbod/McpOidcOAuth/actions/workflows/dotnet.yml)
+
 ## Setup 
 
 ![Flow 1](https://github.com/damienbod/McpOidcOAuth/blob/main/images/OIDC_MCP.drawio.png)
