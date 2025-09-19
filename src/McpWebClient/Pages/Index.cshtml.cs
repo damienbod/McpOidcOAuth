@@ -1,3 +1,5 @@
+using Duende.AccessTokenManagement;
+using Duende.AccessTokenManagement.OpenIdConnect;
 using McpWebClient.AiServices.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -56,6 +58,12 @@ public class IndexModel : PageModel
 
         _chatService.SetMode(SelectedMode);
 
+        var accessToken = await HttpContext.GetUserAccessTokenAsync(
+          new UserTokenRequestParameters
+          {
+              Scope = Scope.ParseOrDefault("scope-dpop")
+          });
+
         await _chatService.EnsureSetupAsync(_clientFactory);
 
         // Begin a fresh chat with the prompt
@@ -69,6 +77,12 @@ public class IndexModel : PageModel
     {
         _chatService.SetMode(SelectedMode);
 
+        var accessToken = await HttpContext.GetUserAccessTokenAsync(
+            new UserTokenRequestParameters
+            {
+                Scope = Scope.ParseOrDefault("scope-dpop")
+            });
+
         await _chatService.EnsureSetupAsync(_clientFactory);
 
         var response = await _chatService.ApproveFunctionAsync(GetUserKey(), functionId);
@@ -81,6 +95,13 @@ public class IndexModel : PageModel
     public async Task<IActionResult> OnPostDeclineAsync(string functionId)
     {
         _chatService.SetMode(SelectedMode);
+
+        var accessToken = await HttpContext.GetUserAccessTokenAsync(
+          new UserTokenRequestParameters
+          {
+              Scope = Scope.ParseOrDefault("scope-dpop")
+          });
+
         await _chatService.EnsureSetupAsync(_clientFactory);
 
         var response = await _chatService.DeclineFunctionAsync(GetUserKey(), functionId);
