@@ -6,3 +6,102 @@
 
 ## Links
 
+https://devblogs.microsoft.com/dotnet/mcp-server-dotnet-nuget-quickstart/
+
+https://github.com/microsoft/mcp-dotnet-samples
+
+https://learn.microsoft.com/en-us/dotnet/ai/quickstarts/build-mcp-server
+
+## Standards, draft Standards
+
+[OAuth 2.0 Dynamic Client Registration Protocol](https://datatracker.ietf.org/doc/html/rfc7591)
+
+[OAuth 2.0 Authorization Server Metadata](https://datatracker.ietf.org/doc/html/rfc8414)
+
+https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization
+
+https://modelcontextprotocol.io/specification/2025-06-18/basic/security_best_practices
+
+https://github.com/modelcontextprotocol/modelcontextprotocol/issues/1299
+
+https://den.dev/blog/mcp-authorization-resource/
+
+## AI UI agents with OAuth support
+
+https://github.com/daodao97/chatmcp
+
+https://claude.ai/download
+
+https://cursor.com/
+
+Visual Studio code
+
+Visual Studio
+
+## Links
+
+https://github.com/MicrosoftDocs/mcp
+
+https://devblogs.microsoft.com/dotnet/mcp-csharp-sdk-2025-06-18-update/
+
+https://modelcontextprotocol.io/docs/learn/architecture
+
+https://github.com/SonarSource/sonarqube-mcp-server
+
+https://den.dev/blog/mcp-authorization-resource/
+
+https://den.dev/blog/mcp-csharp-sdk-authorization/
+
+https://github.com/modelcontextprotocol/modelcontextprotocol/issues/1299
+
+https://blog.cloudflare.com/building-ai-agents-with-mcp-authn-authz-and-durable-objects/
+
+https://blog.aidanjohn.org/2025/07/30/mcp-a-new-frontier-in.html
+
+https://medium.com/kagenti-the-agentic-platform/security-in-and-around-mcp-part-1-oauth-in-mcp-3f15fed0dd6e
+
+https://medium.com/kagenti-the-agentic-platform/security-in-and-around-mcp-part-2-mcp-in-deployment-65bdd0ba9dc6
+
+https://blog.christianposta.com/implementing-mcp-dynamic-client-registration-with-spiffe/
+
+https://blog.christianposta.com/authenticating-mcp-oauth-clients-with-spiffe/
+
+https://luke.geek.nz/azure/akahu-mcp-apim/
+
+https://github.com/modelcontextprotocol/inspector
+
+## Copilot Links
+
+https://github.com/dotnet/AspNetCore.Docs/issues/35798
+
+https://docs.github.com/en/copilot/how-tos/custom-instructions/adding-repository-custom-instructions-for-github-copilot
+
+https://github.com/dotnet/docs-aspire/blob/main/.github/copilot-instructions.md
+
+## Azure Open AI 
+
+https://learn.microsoft.com/en-us/azure/ai-foundry/
+
+## Ready to use servers
+
+https://mcpservers.org/
+
+https://devblogs.microsoft.com/azure-sdk/introducing-the-azure-mcp-server/
+ 
+## Learning Courses
+
+https://github.com/microsoft/mcp-for-beginners
+
+## Azure App Service MCP server
+
+https://github.com/Azure-Samples/remote-mcp-webapp-dotnet
+
+## Testing MCP Client tool
+
+```
+npx @modelcontextprotocol/inspector
+```
+
+https://github.com/modelcontextprotocol/csharp-sdk/blob/main/samples/ProtectedMcpClient/Program.cs
+
+https://github.com/Azure-Samples/ms-identity-dotnet-desktop-tutorial/blob/master/1-Calling-MSGraph/1-1-AzureAD/Console-Interactive-MultiTarget/Program.cs
