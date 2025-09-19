@@ -42,7 +42,7 @@ public class Program
        .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
        {
            options.Authority = "https://localhost:5101";
-           options.ClientId = "web-dpop";
+           options.ClientId = "McpWebClient";
            options.ClientSecret = "ddedF4f289k$3eDa23ed0iTk4Raq&tttk23d08nhzd";
            options.ResponseType = "code";
            options.ResponseMode = "query";
