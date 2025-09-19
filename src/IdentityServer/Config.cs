@@ -29,9 +29,10 @@ public static class Config
                 PostLogoutRedirectUris = { "https://localhost:5102/signout-callback-oidc" },
 
                 RequireDPoP = true,
+                RequirePushedAuthorization = true,
 
                 AllowOfflineAccess = true,
-                AllowedScopes = { "openid", "profile", "mcp:tools" }
+                AllowedScopes = { "openid", "profile", "offline_access", "mcp:tools" }
             }
         ];
 }
