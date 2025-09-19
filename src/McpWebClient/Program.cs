@@ -4,7 +4,10 @@ using McpWebClient.AiServices.Elicitation;
 using McpWebClient.Hubs;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.IdentityModel.JsonWebTokens;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 
@@ -15,6 +18,12 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.Host.UseSerilog((ctx, lc) => lc
+            .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}")
+            .WriteTo.File("../_logs-McpWebClient.txt")
+            .Enrich.FromLogContext()
+            .ReadFrom.Configuration(ctx.Configuration));
 
         builder.Services.AddAuthentication(options =>
         {
@@ -84,6 +93,21 @@ public class Program
         builder.Services.AddScoped<ChatService>();
 
         var app = builder.Build();
+
+        IdentityModelEventSource.ShowPII = true;
+        JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+        app.UseSerilogRequestLogging();
+
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+        else
+        {
+            app.UseExceptionHandler("/Error");
+            app.UseHsts();
+        }
 
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())
