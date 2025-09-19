@@ -32,7 +32,7 @@ builder.Services.AddAuthentication("Bearer")
         {
             Resource = new Uri(httpMcpServerUrl), 
             ResourceDocumentation = new Uri("https://localhost:5103/health"),
-            ScopesSupported = ["scope-dpop"], 
+            ScopesSupported = ["mcp:tools"], 
         };
     });
 
@@ -70,7 +70,7 @@ builder.Services.AddHttpClient();
 // The scope is requires to only allow access tokens intended for this API
 builder.Services.AddAuthorizationBuilder()
   .AddPolicy("mcp_tools", policy =>
-        policy.RequireClaim("scope", "scope-dpop"));
+        policy.RequireClaim("scope", "mcp:tools"));
 
 // Add services to the container.
 var app = builder.Build();

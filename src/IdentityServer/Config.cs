@@ -12,7 +12,7 @@ public static class Config
 
     public static IEnumerable<ApiScope> ApiScopes =>
         [
-            new ApiScope("scope-dpop")
+            new ApiScope("mcp:tools")
         ];
 
     public static IEnumerable<Client> Clients =>
@@ -31,7 +31,7 @@ public static class Config
                 RequireDPoP = true,
 
                 AllowOfflineAccess = true,
-                AllowedScopes = { "openid", "profile", "scope-dpop" }
+                AllowedScopes = { "openid", "profile", "mcp:tools" }
             }
         ];
 }
