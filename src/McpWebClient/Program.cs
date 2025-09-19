@@ -76,6 +76,7 @@ public class Program
             options.DPoPJsonWebKey = DPoPProofKey.ParseOrDefault(JsonSerializer.Serialize(jwk));
         });
 
+        builder.Services.AddHttpClient();
         builder.Services.AddUserAccessTokenHttpClient("dpop-api-client", configureClient: client =>
         {
             client.BaseAddress = new Uri("https://localhost:5103");
