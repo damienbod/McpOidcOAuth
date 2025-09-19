@@ -31,7 +31,7 @@ builder.Services.AddAuthentication("dpoptokenscheme")
         options.ResourceMetadata = new()
         {
             Resource = new Uri(httpMcpServerUrl),
-            ResourceDocumentation = new Uri("https://klocalhost:5103/health"),
+            ResourceDocumentation = new Uri("https://localhost:5103/health"),
             ScopesSupported = ["scope-dpop"],
         };
     });
@@ -45,12 +45,12 @@ builder.Services.ConfigureDPoPTokensForScheme("dpoptokenscheme", opt =>
 builder.Services.AddAuthorization();
 
 builder.Services
-       .AddMcpServer()
-       .WithHttpTransport()
-       .WithPrompts<PromptExamples>()
-       .WithResources<DocumentationResource>()
-       .WithTools<RandomNumberTools>()
-       .WithTools<DateTools>();
+    .AddMcpServer()
+    .WithHttpTransport()
+    .WithPrompts<PromptExamples>()
+    .WithResources<DocumentationResource>()
+    .WithTools<RandomNumberTools>()
+    .WithTools<DateTools>();
 
 // Add CORS for HTTP transport support in browsers
 builder.Services.AddCors(options =>
