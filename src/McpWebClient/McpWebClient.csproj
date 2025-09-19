@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -20,6 +20,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ClientLibrary\ClientLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ecdsa384-private.pem">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ecdsa384-public.pem">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

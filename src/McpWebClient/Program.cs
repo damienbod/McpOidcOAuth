@@ -78,7 +78,7 @@ public class Program
 
         builder.Services.AddUserAccessTokenHttpClient("dpop-api-client", configureClient: client =>
         {
-            client.BaseAddress = new Uri("https://klocalhost:5103");
+            client.BaseAddress = new Uri("https://localhost:5103");
         });
 
         builder.Services.AddAuthorization(options =>
