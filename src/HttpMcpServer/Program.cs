@@ -17,8 +17,8 @@ builder.Host.UseSerilog((ctx, lc) => lc
 var httpMcpServerUrl = builder.Configuration["HttpMcpServerUrl"];
 var identityProvider = builder.Configuration["IdentityProvider"];
 
-builder.Services.AddAuthentication()
-    .AddJwtBearer("Bearer", options =>
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer(options =>
     {
         options.Authority = identityProvider;
         // TODO add valid aud
@@ -26,7 +26,7 @@ builder.Services.AddAuthentication()
         options.MapInboundClaims = false;
         options.TokenValidationParameters.ValidTypes = ["at+jwt"];
     })
-    .AddMcp("Bearer", "mcp server", options =>
+    .AddMcp(options =>
     {
         options.ResourceMetadata = new()
         {

@@ -28,6 +28,8 @@ public static class Config
                 FrontChannelLogoutUri = "https://localhost:5102/signout-oidc",
                 PostLogoutRedirectUris = { "https://localhost:5102/signout-callback-oidc" },
 
+                RequireDPoP = true,
+
                 AllowOfflineAccess = true,
                 AllowedScopes = { "openid", "profile", "scope-dpop" }
             }
