@@ -33,11 +33,11 @@ builder.Services.AddAuthentication("Bearer")
     {
         options.ResourceMetadata = new()
         {
-            Resource = new Uri(httpMcpServerUrl!), 
+            Resource = new Uri($"{httpMcpServerUrl}/mcp"), 
             ResourceName = "MCP demo server",
             AuthorizationServers = [ new Uri(identityProvider!) ], 
             DpopBoundAccessTokensRequired = true,
-            ResourceDocumentation = new Uri($"{identityProvider}/health"),
+            ResourceDocumentation = new Uri($"{httpMcpServerUrl}/health"),
             ScopesSupported = ["mcp:tools"], 
         };
     });
