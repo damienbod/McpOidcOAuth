@@ -33,7 +33,8 @@ builder.Services.AddAuthentication("Bearer")
     {
         options.ResourceMetadata = new()
         {
-            Resource = new Uri(httpMcpServerUrl), 
+            Resource = new Uri(httpMcpServerUrl!), 
+            AuthorizationServers = [ new Uri(identityProvider!) ],
             ResourceDocumentation = new Uri("https://localhost:5103/health"),
             ScopesSupported = ["mcp:tools"], 
         };
