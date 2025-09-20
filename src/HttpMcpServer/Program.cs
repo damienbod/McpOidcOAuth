@@ -21,8 +21,11 @@ builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(options =>
     {
         options.Authority = identityProvider;
-        // TODO add valid aud
-        options.TokenValidationParameters.ValidateAudience = false;
+        options.Audience = $"{identityProvider}/resources";
+        
+        options.TokenValidationParameters.ValidateAudience = true;
+        options.TokenValidationParameters.ValidateIssuer = true;
+
         options.MapInboundClaims = false;
         options.TokenValidationParameters.ValidTypes = ["at+jwt"];
     })
