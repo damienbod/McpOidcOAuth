@@ -34,7 +34,9 @@ builder.Services.AddAuthentication("Bearer")
         options.ResourceMetadata = new()
         {
             Resource = new Uri(httpMcpServerUrl!), 
-            AuthorizationServers = [ new Uri(identityProvider!) ],
+            ResourceName = "MCP demo server",
+            AuthorizationServers = [ new Uri(identityProvider!) ], 
+            DpopBoundAccessTokensRequired = true,
             ResourceDocumentation = new Uri("https://localhost:5103/health"),
             ScopesSupported = ["mcp:tools"], 
         };
