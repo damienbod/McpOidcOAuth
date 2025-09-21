@@ -4,6 +4,8 @@
 
 ## Setup 
 
+The UI application uses OpenID Connect to authentication with Duende identity provider. A DPoP access token is returned which is used to access the model context protocol server. 
+
 ![Flow 1](https://github.com/damienbod/McpOidcOAuth/blob/main/images/OIDC_MCP.drawio.png)
 
 ## Links
