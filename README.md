@@ -8,6 +8,10 @@ The UI application uses OpenID Connect to authentication with Duende identity pr
 
 ![Flow 1](https://github.com/damienbod/McpOidcOAuth/blob/main/images/OIDC_MCP.drawio.png)
 
+## History
+
+- 2025-11-02 Updated packages
+
 ## Links
 
 https://devblogs.microsoft.com/dotnet/mcp-server-dotnet-nuget-quickstart/
