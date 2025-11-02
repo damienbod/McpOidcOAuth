@@ -14,6 +14,8 @@ The UI application uses OpenID Connect to authentication with Duende identity pr
 
 ## Links
 
+https://learn.microsoft.com/en-us/agent-framework/migration-guide/from-semantic-kernel/?pivots=programming-language-csharp
+
 https://devblogs.microsoft.com/dotnet/mcp-server-dotnet-nuget-quickstart/
 
 https://github.com/microsoft/mcp-dotnet-samples
