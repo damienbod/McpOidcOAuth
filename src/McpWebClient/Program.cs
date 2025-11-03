@@ -43,6 +43,7 @@ public class Program
        {
            options.Authority = "https://localhost:5101";
            options.ClientId = "McpWebClient";
+           // In a real app use a client assertion or if using secrets, use a key vault
            options.ClientSecret = "ddedF4f289k$3eDa23ed0iTk4Raq&tttk23d08nhzd";
            options.ResponseType = "code";
            options.ResponseMode = "query";
