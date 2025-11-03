@@ -2,6 +2,8 @@
 
 [![.NET](https://github.com/damienbod/McpOidcOAuth/actions/workflows/dotnet.yml/badge.svg)](https://github.com/damienbod/McpOidcOAuth/actions/workflows/dotnet.yml)
 
+[Implement a secure MCP server using OAuth DPoP and Duende identity provider](https://damienbod.com/2025/11/03/implement-a-secure-mcp-server-using-oauth-dpop-and-duende-identity-provider/)
+
 ## Setup 
 
 The UI application uses OpenID Connect to authentication with Duende identity provider. A DPoP access token is returned which is used to access the model context protocol server. 
