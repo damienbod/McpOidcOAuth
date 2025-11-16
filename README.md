@@ -15,6 +15,7 @@ The UI application uses OpenID Connect to authentication with Duende identity pr
 - [Implement a secure MCP OAuth desktop client using OAuth and Entra ID](https://damienbod.com/2025/10/16/implement-a-secure-mcp-oauth-desktop-client-using-oauth-and-entra-id/)
 - [Model Context Protocol in .NET](https://medium.com/@cedric.mendelin/model-context-protocol-in-net-06c6076b6385)
 - [Developing an MCP Scenario with TypeScript: A production-ready reference implementation, Tobias Maestrini](https://tmaestrini.github.io/topics/developing-an-mcp-scenario-with-typescript-a-production-ready-reference-implementation)
+- [Implement a secure MCP server using OAuth DPoP and Duende identity provider](https://damienbod.com/2025/11/03/implement-a-secure-mcp-server-using-oauth-dpop-and-duende-identity-provider/)
   
 ## History
 
