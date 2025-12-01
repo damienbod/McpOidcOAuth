@@ -418,3 +418,4 @@ FodyWeavers.xsd
 *.msp
 /src/_logs-**
 /src/IdentityServer/keys/**
+/src/IdentityServer/keys/**
