@@ -19,6 +19,7 @@ The UI application uses OpenID Connect to authentication with Duende identity pr
   
 ## History
 
+- 2026-01-31 Updated packages
 - 2025-12-01 .NET 10
 - 2025-11-02 Updated packages
 
