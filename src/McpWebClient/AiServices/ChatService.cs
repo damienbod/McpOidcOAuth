@@ -1,28 +1,44 @@
-﻿using ClientLibrary;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using ClientLibrary;
 using McpWebClient.AiServices.Elicitation;
 using McpWebClient.AiServices.Models;
-using Microsoft.SemanticKernel;
+using Microsoft.Extensions.AI;
 using ModelContextProtocol.Client;
 using ModelContextProtocol.Protocol;
-using System.Net.Http;
-using System.Net.Http.Headers;
 
 namespace McpWebClient;
 
 public enum ApprovalMode
 {
+    [Display(Name = "Auto (no human approval)")]
+    Auto,
+    [Display(Name = "Manual Approval")]
     Manual,
+    [Display(Name = "Elicitation Approval")]
     Elicitation
+}
+
+public enum FunctionCallingMode
+{
+    [Display(Name = "Local Function Calling")]
+    Local,
+    [Display(Name = "Unauthenticated MCP")]
+    McpUnsecure,
+    [Display(Name = "Confidential OIDC MCP")]
+    McpSecure
 }
 
 public class ChatService
 {
     private readonly IConfiguration _configuration;
     private readonly ElicitationCoordinator _elicitationCoordinator;
-    private Kernel _kernel;
+    private IChatClient _chatClient;
+    private IList<AIFunction> _tools = [];
     private IMcpClient _mcpClient = null!;
     private bool _initialized;
-    private ApprovalMode _mode = ApprovalMode.Manual;
+    private ApprovalMode _approvalMode = ApprovalMode.Auto;
+    private FunctionCallingMode _functionCallingMode = FunctionCallingMode.Local;
 
     private PromptingService? _promptingService;
 
@@ -30,18 +46,30 @@ public class ChatService
     {
         _configuration = configuration;
         _elicitationCoordinator = elicitationCoordinator;
+
         var config = new ConfigurationBuilder()
             .AddUserSecrets<Program>()
+            .AddEnvironmentVariables()
             .Build();
-        _kernel = SemanticKernelHelper.GetKernel(config);
+
+        _chatClient = ChatClientHelper.GetChatClient(config);
     }
 
-    public void SetMode(ApprovalMode mode)
+    public void SetApprovalMode(ApprovalMode mode)
     {
-        if (_mode != mode)
+        if (_approvalMode != mode)
         {
             _initialized = false;
-            _mode = mode;
+            _approvalMode = mode;
+        }
+    }
+
+    public void SetFunctionCallingMode(FunctionCallingMode mode)
+    {
+        if (_functionCallingMode != mode)
+        {
+            _initialized = false;
+            _functionCallingMode = mode;
         }
     }
 
@@ -49,16 +77,31 @@ public class ChatService
     {
         if (_initialized) return;
 
-        _mcpClient = await McpClientFactory.CreateAsync(CreateMcpTransport(clientFactory), GetMcpOptions());
-        await _kernel.ImportMcpClientToolsAsync(_mcpClient);
 
-        _promptingService = new PromptingService(_kernel, autoInvoke: _mode == ApprovalMode.Elicitation);
+
+        if (_functionCallingMode == FunctionCallingMode.Local)
+        {
+            _tools = GetLocalTools();
+        }
+        else
+        {
+            _mcpClient = await McpClientFactory.CreateAsync(await CreateMcpTransport(clientFactory), GetMcpOptions());
+            _tools = await _mcpClient.GetMcpToolsAsAIFunctionsAsync();
+        }
+
+        // Wrap chat client with function invocation if using elicitation or auto mode (auto-invoke)
+        if (_approvalMode is ApprovalMode.Elicitation or ApprovalMode.Auto)
+        {
+            _chatClient = new ChatClientBuilder(_chatClient).UseFunctionInvocation().Build();
+        }
+
+        _promptingService = new PromptingService(_chatClient, _tools);
         _initialized = true;
     }
 
     private McpClientOptions? GetMcpOptions()
     {
-        return _mode == ApprovalMode.Elicitation ? new McpClientOptions
+        return _approvalMode == ApprovalMode.Elicitation ? new McpClientOptions
         {
             ClientInfo = new() { Name = "WebElicitationClient", Version = "1.0.0" },
             Capabilities = new() { Elicitation = new() { ElicitationHandler = HandleElicitationAsync } }
@@ -71,16 +114,52 @@ public class ChatService
         return _elicitationCoordinator.HandleAsync(requestParams, token);
     }
 
-    private IClientTransport CreateMcpTransport(IHttpClientFactory clientFactory)
+    private async Task<IClientTransport> CreateMcpTransport(IHttpClientFactory clientFactory)
     {
+        var clientName = "Unsecure Client";
         var httpClient = clientFactory.CreateClient("dpop-api-client");
         var httpMcpServerUrl = _configuration["HttpMcpServerUrl"] ?? throw new ArgumentNullException("Configuration missing for HttpMcpServerUrl");
-        return new SseClientTransport(new() { Endpoint = new Uri(httpMcpServerUrl), Name = "Secure Client" }, httpClient);
+
+        if (_functionCallingMode == FunctionCallingMode.McpSecure)
+        {
+            clientName = "Secure Client";
+
+
+        }
+
+        var transport = new SseClientTransport(new()
+        {
+            Endpoint = new Uri(httpMcpServerUrl!),
+            Name = clientName,
+        }, httpClient);
+
+        return transport;
     }
+
+    private IList<AIFunction> GetLocalTools() => [
+        AIFunctionFactory.Create(
+             () => DateTime.UtcNow.ToString("o"),
+             "GetCurrentDateTime",
+             "Returns the current date and time in ISO 8601 format."),
+        AIFunctionFactory.Create(
+             ([Description("The date to generate random number from")] DateTime? datetime = null) => {
+                if (datetime == null)
+                {
+                    datetime = DateTime.Now;
+                }
+
+                var min = (int)datetime.Value.Ticks % 100;
+                var max = min + 1_000;
+
+                return Random.Shared.Next(min, max);
+            },
+             "GetRandomNumberFromDateTime",
+             "Generates a random number based on a date.")
+    ];
 
     private PromptingService Handler => _promptingService ?? throw new InvalidOperationException("Service not initialized");
 
-    public Task<ChatResponse> BeginChatAsync(string userKey, string prompt) => Handler.BeginAsync(userKey, prompt);
-    public Task<ChatResponse> ApproveFunctionAsync(string userKey, string functionId) => Handler.ApproveAsync(userKey, functionId);
-    public Task<ChatResponse> DeclineFunctionAsync(string userKey, string functionId) => Handler.DeclineAsync(userKey, functionId);
+    public Task<PromptResponse> BeginChatAsync(string userKey, string prompt) => Handler.BeginAsync(userKey, prompt);
+    public Task<PromptResponse> ApproveFunctionAsync(string userKey, string functionId) => Handler.ApproveAsync(userKey, functionId);
+    public Task<PromptResponse> DeclineFunctionAsync(string userKey, string functionId) => Handler.DeclineAsync(userKey, functionId);
 }
