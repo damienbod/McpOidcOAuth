@@ -43,9 +43,9 @@ builder.Services.AddAuthentication("Bearer")
     });
 
 // layers DPoP onto the "token" scheme above
-builder.Services.ConfigureDPoPTokensForScheme("Bearer", opt =>
+builder.Services.ConfigureDPoPTokensForScheme("Bearer", options =>
 {
-    opt.ValidationMode = ExpirationValidationMode.IssuedAt; // IssuedAt is the default.
+    options.ProofTokenLifetime = TimeSpan.FromSeconds(30);
 });
 
 builder.Services.AddAuthorization();
